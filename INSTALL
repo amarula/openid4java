@@ -43,29 +43,12 @@ Using the library:
           <version>2.0.0</version>
         </dependency>
 
-  The Amarula Solutions fork is published to GitHub Packages. Add the
-  repository to your project:
+  The Amarula Solutions fork is published to Maven Central. No
+  additional repository or authentication configuration is required;
+  the core dependencies are resolved transitively by Maven.
 
-        <repositories>
-          <repository>
-            <id>github</id>
-            <url>https://maven.pkg.github.com/amarula/openid4java</url>
-          </repository>
-        </repositories>
-
-  GitHub Packages requires authentication. Add a server entry to
-  ~/.m2/settings.xml with your GitHub username and a personal access
-  token that has the read:packages scope:
-
-        <servers>
-          <server>
-            <id>github</id>
-            <username>YOUR_GITHUB_USERNAME</username>
-            <password>YOUR_PAT</password>
-          </server>
-        </servers>
-
-  The core dependencies are resolved transitively by Maven.
+  Internal builds may instead publish the library to GitHub Packages
+  using the github-packages Maven profile.
 
   For Jenkins plugins, use the shaded artifact:
 

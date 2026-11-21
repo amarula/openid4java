@@ -49,7 +49,8 @@ custom parser configurations must use the new classes.
 
 Added a shaded openid4java-shaded 2.0.0 artifact for Jenkins plugins,
 with Guice, Guava, HttpClient 5, jsoup and the injection APIs relocated
-under org.openid4java.shaded.*.
+under org.openid4java.shaded.*. The library and the shaded artifact are
+published to Maven Central.
 
 Upgraded the test-only JDOM dependency from 1.0 to JDOM 2.
 
