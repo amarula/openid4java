@@ -1,8 +1,5 @@
 ![OpenID4Java](openid4java.png)
 
-**[中文(简体)](http://code.google.com/p/openid4java/wiki/ProjectHome_zh_CN)**
-
-
 # What is this package? #
 
 This library allows you to OpenID-enable your Java webapp.
@@ -43,7 +40,7 @@ To OpenID-enable a website - a Relying Party (RP) in OpenID terms, or Consumer a
 
   * Receive the OpenID Provider's authentication response at your webapp's ReturnURL, and verify it
 
-Have a look at the QuickStart page for a code-level walk-through the above, and at `test/src/org/openid4java/consumer/SampleConsumer.java` for the full code.
+Have a look at the usage pattern in `src/overview.html` for a code-level walk-through of the above, and at `test/src/org/openid4java/consumer/SampleConsumer.java` for the full code.
 
 The bulk of the action amounts to about a dozen lines of code.
 
@@ -99,12 +96,6 @@ This file!
 
 [TODO](TODO)
 Tasks remaining and/or ongoing.
-
-[VERSION](VERSION)
-The released version of this package.
-
-[apidoc/](apidoc)
-JavaDoc API documentation.
 
 [samples/](samples)
 Sample implementation projects. See samples/README for details.

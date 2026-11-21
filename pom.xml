@@ -12,11 +12,7 @@
     OpenID4Java library offers support for OpenID-enabling a
     consumer site or implementing an OpenID Provider server.
   </description>
-  <url>http://code.google.com/p/openid4java/</url>
-
-  <prerequisites>
-    <maven>2.2.1</maven>
-  </prerequisites>
+  <url>https://github.com/jbufu/openid4java</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -58,12 +54,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-assembly-plugin</artifactId>
-          <version>2.4</version>
+          <version>3.7.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-clean-plugin</artifactId>
-          <version>2.5</version>
+          <version>3.4.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -73,17 +69,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-deploy-plugin</artifactId>
-          <version>2.7</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-eclipse-plugin</artifactId>
-          <version>2.9</version>
+          <version>3.1.4</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-install-plugin</artifactId>
-          <version>2.4</version>
+          <version>3.1.4</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -97,28 +88,8 @@
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-jxr-plugin</artifactId>
-          <version>2.2</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-pmd-plugin</artifactId>
-          <version>2.5</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-project-info-reports-plugin</artifactId>
-          <version>2.3.1</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
           <version>3.3.1</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-site-plugin</artifactId>
-          <version>3.2</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -129,36 +100,6 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>3.5.2</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-report-plugin</artifactId>
-          <version>2.10</version>
-        </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>cobertura-maven-plugin</artifactId>
-          <version>2.5</version>
-        </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>findbugs-maven-plugin </artifactId>
-          <version>2.3.2</version>
-        </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>rat-maven-plugin</artifactId>
-          <version>1.0-alpha-3</version>
-        </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>taglist-maven-plugin</artifactId>
-          <version>2.4</version>
-        </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>versions-maven-plugin</artifactId>
-          <version>2.0</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -171,6 +112,29 @@
           <debug>true</debug>
           <optimize>true</optimize>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>3.5.0</version>
+        <executions>
+          <execution>
+            <id>enforce</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireJavaVersion>
+                  <version>[17,)</version>
+                </requireJavaVersion>
+                <requireMavenVersion>
+                  <version>[3.9,)</version>
+                </requireMavenVersion>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -194,18 +158,6 @@
             </manifestSections>
           </archive>
         </configuration>
-      </plugin>
-      <!-- clean coverage data before collecting -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>clean</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -279,125 +231,10 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-eclipse-plugin</artifactId>
-        <configuration>
-          <downloadSources>true</downloadSources>
-          <downloadJavadocs>true</downloadJavadocs>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
 
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.3.1</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.9</version>
-        <configuration>
-          <minmemory>128m</minmemory>
-          <maxmemory>512m</maxmemory>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jxr-plugin</artifactId>
-        <version>2.2</version>
-        <configuration>
-          <linkJavadoc>true</linkJavadoc>
-          <javadocDir>apidocs</javadocDir>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>taglist-maven-plugin</artifactId>
-        <version>2.4</version>
-        <configuration>
-          <tags>
-            <tag>TODO</tag>
-            <tag>FIXME</tag>
-            <tag>@todo</tag>
-            <tag>@deprecated</tag>
-          </tags>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-        <version>2.5</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-report-plugin</artifactId>
-        <version>2.10</version>
-        <configuration>
-          <showSuccess>false</showSuccess>
-        </configuration>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>report-only</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.6</version>
-        <configuration>
-          <configLocation>${basedir}/openid4java_checks.xml</configLocation>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-        <version>2.3.2</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-pmd-plugin</artifactId>
-        <version>2.5</version>
-        <configuration>
-          <linkXref>true</linkXref>
-          <minimumTokens>100</minimumTokens>
-        </configuration>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>pmd</report>
-              <report>cpd</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>rat-maven-plugin</artifactId>
-        <version>1.0-alpha-3</version>
-      </plugin>
-    </plugins>
-  </reporting>
 
-  <repositories>
-    <repository>
-      <id>openid4java-snapshots</id>
-      <name>OpenID4Java Snapshot Repository</name>
-      <url>https://oss.sonatype.org/content/repositories/openid4java-snapshots/</url>
-      <snapshots />
-    </repository>
-  </repositories>
 
   <dependencyManagement>
     <dependencies>
@@ -749,51 +586,17 @@
     </mailingList>
   </mailingLists>
   <issueManagement>
-    <system>Google Code Issue</system>
-    <url>http://code.google.com/p/openid4java/issues/list</url>
+    <system>GitHub</system>
+    <url>https://github.com/jbufu/openid4java/issues</url>
   </issueManagement>
   <scm>
-    <connection>scm:svn:http://openid4java.googlecode.com/svn/trunk/</connection>
-    <developerConnection>scm:svn:https://openid4java.googlecode.com/svn/trunk/</developerConnection>
+    <connection>scm:git:https://github.com/jbufu/openid4java.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/jbufu/openid4java.git</developerConnection>
     <tag>HEAD</tag>
-    <url>http://openid4java.googlecode.com/svn/trunk/</url>
+    <url>https://github.com/jbufu/openid4java</url>
   </scm>
-  <distributionManagement>
-    <!-- https://docs.sonatype.com/display/NX/OSS+Repository+Hosting -->
-    <repository>
-      <id>openid4java-staging</id>
-      <name>OpenID4Java Staging Repository</name>
-      <url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-    <snapshotRepository>
-      <id>openid4java-snapshots</id>
-      <name>OpenID4Java Snapshot Repository</name>
-      <url>http://oss.sonatype.org/content/repositories/openid4java-snapshots/</url>
-    </snapshotRepository>
-  </distributionManagement>
 
   <profiles>
-    <profile>
-      <id>alchim-deploy</id>
-      <distributionManagement>
-        <repository>
-          <id>alchim.sf.net</id>
-          <name>sourceforge</name>
-          <url>scp://alchim.sf.net/home/groups/a/al/alchim/htdocs/download/releases</url>
-        </repository>
-        <snapshotRepository>
-          <id>alchim.sf.net</id>
-          <name>sourceforge</name>
-          <url>scp://alchim.sf.net/home/groups/a/al/alchim/htdocs/download/snapshots</url>
-          <uniqueVersion>false</uniqueVersion>
-        </snapshotRepository>
-        <site>
-          <id>alchim.sf.net</id>
-          <name>sourceforge</name>
-          <url>scp://alchim.sf.net/home/groups/a/al/alchim/htdocs/openid4java</url>
-        </site>
-      </distributionManagement>
-    </profile>
     <profile>
       <id>release</id>
       <build>
@@ -801,6 +604,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
+            <version>3.2.7</version>
             <executions>
               <execution>
                 <id>sign-artifacts</id>

@@ -182,7 +182,6 @@ public class ConsumerServlet extends jakarta.servlet.http.HttpServlet {
 	 * @param httpReq
 	 * @param authReq
 	 * @throws MessageException
-	 * @see <a href="http://code.google.com/p/openid4java/wiki/SRegHowTo">Simple Registration HowTo</a>
 	 * @see <a href="http://openid.net/specs/openid-simple-registration-extension-1_0.html">OpenID Simple Registration Extension 1.0</a>
 	 */
 	private void addSimpleRegistrationToAuthRequest(HttpServletRequest httpReq,
@@ -215,7 +214,6 @@ public class ConsumerServlet extends jakarta.servlet.http.HttpServlet {
 	 * @param httpReq
 	 * @param authReq
 	 * @throws MessageException
-	 * @see <a href="http://code.google.com/p/openid4java/wiki/AttributeExchangeHowTo">Attribute Exchange HowTo</a>
 	 * @see <a href="http://openid.net/specs/openid-attribute-exchange-1_0.html">OpenID Attribute Exchange 1.0 - Final</a>
 	 */
 	private void addAttributeExchangeToAuthRequest(HttpServletRequest httpReq,

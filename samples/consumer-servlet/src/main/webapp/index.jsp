@@ -35,7 +35,7 @@
 		</fieldset>
 
 		<fieldset>
-			<legend>Sample 2: using the Simple Registration extension(doc: <a href="http://code.google.com/p/openid4java/wiki/SRegHowTo">SRegHowTo</a>)</legend>
+			<legend>Sample 2: using the Simple Registration extension(see the OpenID Simple Registration extension spec)</legend>
 			<form action="consumer" method="post">
 				<div id="sreg">
 					<input type="text" name="openid_identifier" />
@@ -79,7 +79,7 @@
 		</fieldset>
 
 		<fieldset>
-			<legend>Sample 3: using the Attribute Exchange extension(doc: <a href="http://code.google.com/p/openid4java/wiki/AttributeExchangeHowTo">AttributeExchangeHowTo</a>)</legend>
+			<legend>Sample 3: using the Attribute Exchange extension(see the OpenID Attribute Exchange extension spec)</legend>
 			<form action="consumer" method="post">
 				<div id="ax">
 					<input type="text" name="openid_identifier" value="https://www.google.com/accounts/o8/id" />

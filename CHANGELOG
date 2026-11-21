@@ -5,8 +5,8 @@
 This document highlights the major changes in the OpenID4Java library.
 Please see the TODO file for outstanding items.
 
-    For the detailed logs please see the commit comments at:
-    - http://code.google.com/p/openid4java
+    For the detailed logs please see the commit history at:
+    - https://github.com/jbufu/openid4java/commits/master
 
 2.0.0 (unreleased):
 
@@ -187,12 +187,11 @@ Under the hood:
 Copyright 2006-2008 Sxip Identity Corporation
 
 Project home page and package distribution:
-  => http://code.google.com/p/openid4java
-  => http://code.google.com/p/openid4java/downloads/
+  => https://github.com/jbufu/openid4java
+  => https://github.com/jbufu/openid4java/releases
 
-For support, please visit the wiki and join the Google Groups!
+For support, please join the Google Group:
   => http://groups.google.com/group/openid4java/
-  => http://code.google.com/p/openid4java/w/
 
 OpenID
   => http://openid.net/
