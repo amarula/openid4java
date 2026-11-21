@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
-import org.apache.log4j.NDC;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public abstract class HttpServletSupport extends HttpServlet
 {
@@ -20,21 +20,21 @@ public abstract class HttpServletSupport extends HttpServlet
     protected static Exception lastException;
 
     protected static int count_;
-    protected Logger logger_;
+    protected Log logger_;
 
     public HttpServletSupport()
     {
-        logger_ = Logger.getLogger(getClass());
+        logger_ = LogFactory.getLog(getClass());
     }
 
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
         count_++;
-        String ndcName = getClass().getName();
-        ndcName = ndcName.substring(ndcName.lastIndexOf('.')+1);
-        NDC.push(ndcName);
-        NDC.push("call-" + count_);
-        logger_.info("begin onService");
+        String name = getClass().getName();
+        name = name.substring(name.lastIndexOf('.') + 1);
+        String context = name + " call-" + count_ + " : ";
+
+        logger_.info(context + "begin onService");
         try
         {
             onService(req, resp);
@@ -46,9 +46,7 @@ public abstract class HttpServletSupport extends HttpServlet
         }
         finally
         {
-            logger_.info("end onService");
-            NDC.pop();
-            NDC.pop();
+            logger_.info(context + "end onService");
         }
     }
 
