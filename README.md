@@ -34,6 +34,25 @@ The following specifications are supported:
 Artifacts are published to GitHub Packages. See [INSTALL](INSTALL) for
 the repository and authentication setup.
 
+# Jenkins shaded artifact #
+
+For Jenkins plugins and other environments that need a single JAR with
+relocated third-party dependencies:
+
+```
+<dependency>
+  <groupId>com.amarulasolutions</groupId>
+  <artifactId>openid4java-shaded</artifactId>
+  <version>2.0.0</version>
+</dependency>
+```
+
+Guice, Guava, HttpClient 5, jsoup and the injection APIs are relocated
+under `org.openid4java.shaded.*`. `commons-codec` remains an external
+dependency and `slf4j-api` is provided by the runtime (Jenkins provides
+it). The shaded artifact is published to GitHub Packages; see
+[INSTALL](INSTALL).
+
 # What is OpenID? #
 
 OpenID starts with the concept that anyone can identify themselves on the

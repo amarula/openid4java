@@ -67,6 +67,18 @@ Using the library:
 
   The core dependencies are resolved transitively by Maven.
 
+  For Jenkins plugins, use the shaded artifact:
+
+        <dependency>
+          <groupId>com.amarulasolutions</groupId>
+          <artifactId>openid4java-shaded</artifactId>
+          <version>2.0.0</version>
+        </dependency>
+
+  Its third-party packages are relocated under org.openid4java.shaded.*;
+  commons-codec is an external dependency and slf4j-api is provided by
+  the runtime (Jenkins provides it).
+
   The Spring JDBC and Ehcache integrations are optional. Add spring-jdbc
   or ehcache explicitly when using JdbcConsumerAssociationStore,
   JdbcServerAssociationStore, JdbcNonceVerifier or EhcacheNonceVerifier.
