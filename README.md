@@ -1,10 +1,14 @@
 ![OpenID4Java](openid4java.png)
 
-This repository is a maintained fork of the original OpenID4Java library.
+This repository is a maintained fork of the original OpenID4Java library,
+maintained by [Amarula Solutions](https://github.com/amarula).
 
 > **Note:** OpenID Authentication 2.0 is a deprecated specification.
 > This fork maintains the library for existing deployments; new projects
 > should use OpenID Connect.
+
+> This fork is not affiliated with or endorsed by the OpenID Foundation
+> or the original maintainers.
 
 # What is this package? #
 
@@ -16,6 +20,19 @@ The following specifications are supported:
   * [OpenID Attribute Exchange 1.0](http://openid.net/specs/openid-attribute-exchange-1_0.html)
   * [OpenID Simple Registration 1.0](http://openid.net/specs/openid-simple-registration-extension-1_0.html) and [1.1, draft 1](http://openid.net/specs/openid-simple-registration-extension-1_1-01.html)
   * [OpenID Provider Authentication Policy Extension 1.0](http://openid.net/specs/openid-provider-authentication-policy-extension-1_0.html)
+
+# Maven coordinates #
+
+```
+<dependency>
+  <groupId>com.amarulasolutions</groupId>
+  <artifactId>openid4java</artifactId>
+  <version>2.0.0</version>
+</dependency>
+```
+
+Artifacts are published to GitHub Packages. See [INSTALL](INSTALL) for
+the repository and authentication setup.
 
 # What is OpenID? #
 

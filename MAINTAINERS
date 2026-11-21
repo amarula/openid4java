@@ -28,12 +28,19 @@ Entire Library, including documentation:
   M: Justen Stepka
   S: fixes/patches
 
+------------------------------------------------------------------------
+
+Amarula Solutions fork:
+
+  M: Michael Trimarchi <michael@amarulasolutions.com>
+  S: maintained
+
 ========================================================================
 Copyright 2006-2008 Sxip Identity Corporation
 
 Project home page and package distribution:
-  => https://github.com/jbufu/openid4java
-  => https://github.com/jbufu/openid4java/releases
+  => https://github.com/amarula/openid4java
+  => https://github.com/amarula/openid4java/releases
 
 For support, please join the Google Group:
   => http://groups.google.com/group/openid4java/
