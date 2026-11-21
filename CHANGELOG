@@ -8,6 +8,33 @@ Please see the TODO file for outstanding items.
     For the detailed logs please see the commit comments at:
     - http://code.google.com/p/openid4java
 
+2.0.0 (unreleased):
+
+Notable changes:
+
+Java 17 or newer is required. The build runs on JDK 25 and produces
+Java 17 bytecode.
+
+Removed the OpenID Information Cards (Higgins STS) support.
+
+Removed the local XRI resolver, which depended on the abandoned OpenXRI
+libraries. The HTTP-based XriDotNetProxyResolver remains available.
+
+Removed the Ant build and the bundled lib/ JARs. Maven is the supported
+build.
+
+Moved the SampleConsumer and SampleServer demo classes out of the main
+artifact and into the test sources. The main JAR no longer depends on
+the servlet API.
+
+Removed the end-of-life log4j 1.x dependency and the unused xmlsec
+dependency.
+
+Upgraded the test-only JDOM dependency from 1.0 to JDOM 2.
+
+Updated the Maven plugins and added Automatic-Module-Name to the JAR
+manifest.
+
 20150208:
 
 Security bug fix for URL identifiers comparison - use custom, proper implementation instead of relying on java.net.URL.
