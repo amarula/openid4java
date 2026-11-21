@@ -31,8 +31,8 @@ The following specifications are supported:
 </dependency>
 ```
 
-Artifacts are published to GitHub Packages. See [INSTALL](INSTALL) for
-the repository and authentication setup.
+Artifacts are published to Maven Central and can be resolved without
+additional repository or authentication configuration.
 
 # Jenkins shaded artifact #
 
@@ -50,8 +50,21 @@ relocated third-party dependencies:
 Guice, Guava, HttpClient 5, jsoup and the injection APIs are relocated
 under `org.openid4java.shaded.*`. `commons-codec` remains an external
 dependency and `slf4j-api` is provided by the runtime (Jenkins provides
-it). The shaded artifact is published to GitHub Packages; see
-[INSTALL](INSTALL).
+it). The shaded artifact is published to Maven Central alongside the
+library; no repository configuration is required.
+
+# Publishing #
+
+The `Publish to Maven Central` workflow publishes the library and the
+shaded artifact through the Sonatype Central Portal. It requires these
+repository secrets:
+
+  * `CENTRAL_USERNAME` and `CENTRAL_TOKEN`: a Central Portal user token
+  * `GPG_PRIVATE_KEY` and `GPG_PASSPHRASE`: the signing key
+
+The workflow defaults to `auto_publish=false`, which validates both
+deployments and waits for a manual release in the Central Portal. Set
+the `auto_publish` input to publish immediately.
 
 # What is OpenID? #
 
