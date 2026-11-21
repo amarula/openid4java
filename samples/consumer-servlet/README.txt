@@ -1,15 +1,14 @@
 How to run the demo.
 
-Step 1. Install openid4java library.
+Step 1. Build and install the openid4java library from the repository root:
 
-% cd openid4java
-% mvn package install
+  mvn install -DskipTests
 
-Step 2. Run the demo.
+Step 2. Run the demo:
 
-% cd samples/consumer-servlet
-% mvn jetty:run
+  cd samples/consumer-servlet
+  mvn jetty:run
 
-Step 3. OK.
+Step 3. Open http://localhost:8080/consumer-servlet/ in a browser.
 
-Open http://localhost:8080/consumer-servlet/ by browser.
+The demo requires JDK 17 or newer and uses Jakarta EE 10 (Jetty 12).
