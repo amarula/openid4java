@@ -407,9 +407,9 @@
         <version>7.0.0</version>
       </dependency>
       <dependency>
-        <groupId>net.sf.ehcache</groupId>
+        <groupId>org.ehcache</groupId>
         <artifactId>ehcache</artifactId>
-        <version>2.10.9.2</version>
+        <version>3.10.9</version>
       </dependency>
       <dependency>
         <groupId>javax.servlet</groupId>
@@ -523,9 +523,16 @@
     </dependency>
 
     <dependency>
-      <groupId>net.sf.ehcache</groupId>
+      <groupId>org.ehcache</groupId>
       <artifactId>ehcache</artifactId>
       <optional>true</optional>
+      <exclusions>
+        <!-- Only needed for Ehcache XML configuration, which the library does not use. -->
+        <exclusion>
+          <groupId>org.glassfish.jaxb</groupId>
+          <artifactId>jaxb-runtime</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <!-- Test sample servlets -->

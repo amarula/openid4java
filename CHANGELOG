@@ -35,6 +35,9 @@ The HTTP types exposed by HttpFetcherFactory, HttpCache,
 HttpClientFactory, HttpResponse and ProxyProperties now use
 HttpClient 5.
 
+Replaced the end-of-life Ehcache 2 with Ehcache 3.10.
+EhcacheNonceVerifier.setCache now accepts org.ehcache.Cache.
+
 Upgraded the test-only JDOM dependency from 1.0 to JDOM 2.
 
 Updated the Maven plugins and added Automatic-Module-Name to the JAR
