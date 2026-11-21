@@ -38,6 +38,12 @@ HttpClient 5.
 Replaced the end-of-life Ehcache 2 with Ehcache 3.10.
 EhcacheNonceVerifier.setCache now accepts org.ehcache.Cache.
 
+Replaced the unmaintained NekoHTML and Xerces HTML parsing stack
+with jsoup. The discovery.html.parser and discovery.yadis.html.parser
+defaults now point to JsoupHtmlParser and JsoupYadisHtmlParser.
+The CyberNekoDOM* parsers and OpenID4JavaDOMParser were removed;
+custom parser configurations must use the new classes.
+
 Upgraded the test-only JDOM dependency from 1.0 to JDOM 2.
 
 Updated the Maven plugins and added Automatic-Module-Name to the JAR
