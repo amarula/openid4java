@@ -7,7 +7,7 @@ package org.openid4java.consumer;
 import com.google.inject.Inject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.http.HttpStatus;
+import org.apache.hc.core5.http.HttpStatus;
 import org.openid4java.OpenIDException;
 import org.openid4java.association.Association;
 import org.openid4java.association.AssociationException;

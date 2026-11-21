@@ -5,7 +5,7 @@
 package org.openid4java.discovery.html;
 
 import com.google.inject.Inject;
-import org.apache.http.HttpStatus;
+import org.apache.hc.core5.http.HttpStatus;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

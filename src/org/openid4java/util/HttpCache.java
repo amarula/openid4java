@@ -6,20 +6,20 @@ package org.openid4java.util;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpHead;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.params.AllClientPNames;
-import org.apache.http.conn.ssl.X509HostnameVerifier;
-import org.apache.http.message.BasicNameValuePair;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpHead;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.core5.http.Header;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.NameValuePair;
+import org.apache.hc.core5.http.message.BasicNameValuePair;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Date;
 
+import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 
 /**
@@ -45,7 +46,7 @@ public class HttpCache extends AbstractHttpFetcher
     /**
      * HttpClient used to place the HTTP requests.
      */
-    private HttpClient _client;
+    private CloseableHttpClient _client;
 
     /**
      * Cache for GET requests. Map of URL -> HttpResponse.
@@ -75,7 +76,7 @@ public class HttpCache extends AbstractHttpFetcher
      *
      * @see HttpRequestOptions
      */
-    public HttpCache(SSLContext sslContext, X509HostnameVerifier hostnameVerifier)
+    public HttpCache(SSLContext sslContext, HostnameVerifier hostnameVerifier)
     {
         super();
         _client = HttpClientFactory.getInstance(
@@ -124,34 +125,23 @@ public class HttpCache extends AbstractHttpFetcher
         }
 
         HttpGet get = new HttpGet(url);
+        HttpUtils.setRequestOptions(get, requestOptions);
 
-        org.apache.http.HttpResponse httpResponse = null;
-        HttpEntity responseEntity = null;
-
-        try
+        try (CloseableHttpResponse httpResponse = _client.execute(get))
         {
-            get.getParams().setParameter(AllClientPNames.HANDLE_REDIRECTS, Boolean.TRUE);
-            HttpUtils.setRequestOptions(get, requestOptions);
+            int statusCode = httpResponse.getCode();
+            String statusLine = httpResponse.getReasonPhrase();
 
-            httpResponse = _client.execute(get);
-            responseEntity = httpResponse.getEntity();
-            int statusCode = httpResponse.getStatusLine().getStatusCode();
-            String statusLine = httpResponse.getStatusLine().getReasonPhrase();
-
-            ResponseBody body = getResponseBody(responseEntity,
+            ResponseBody body = getResponseBody(httpResponse.getEntity(),
                 requestOptions.getMaxBodySize());
 
             resp = new DefaultHttpResponse(statusCode, statusLine,
-                    requestOptions.getMaxRedirects(), get.getURI().toString(),
-                    httpResponse.getAllHeaders(), body.getBody());
+                    requestOptions.getMaxRedirects(), url,
+                    httpResponse.getHeaders(), body.getBody());
             resp.setBodySizeExceeded(body.isBodyTruncated());
 
             // save result in cache
             _getCache.put(url, resp);
-        }
-        finally
-        {
-            HttpUtils.dispose(responseEntity);
         }
 
         return resp;
@@ -174,34 +164,24 @@ public class HttpCache extends AbstractHttpFetcher
 
       // build the post message with the parameters from the request
       HttpPost post = new HttpPost(url);
+      HttpUtils.setRequestOptions(post, requestOptions, false);
+      post.setEntity(new UrlEncodedFormEntity(toList(parameters), StandardCharsets.UTF_8));
 
       DefaultHttpResponse resp;
-      org.apache.http.HttpResponse httpResponse = null;
-      try
+      // place the http call to the OP
+      if (DEBUG) _log.debug("Performing HTTP POST on " + url);
+      try (CloseableHttpResponse httpResponse = _client.execute(post))
       {
-          // can't follow redirects on a POST (w/o user intervention)
-          post.getParams().setBooleanParameter(AllClientPNames.HANDLE_REDIRECTS, false);
-          HttpUtils.setRequestOptions(post, requestOptions);
-
-          post.setEntity(new UrlEncodedFormEntity(toList(parameters), "UTF-8"));
-
-          // place the http call to the OP
-          if (DEBUG) _log.debug("Performing HTTP POST on " + url);
-          httpResponse = _client.execute(post);
-          int statusCode = httpResponse.getStatusLine().getStatusCode();
-          String statusLine = httpResponse.getStatusLine().getReasonPhrase();
+          int statusCode = httpResponse.getCode();
+          String statusLine = httpResponse.getReasonPhrase();
 
           ResponseBody body = getResponseBody(httpResponse.getEntity(),
               requestOptions.getMaxBodySize());
 
           resp = new DefaultHttpResponse(statusCode, statusLine,
-                  requestOptions.getMaxRedirects(), post.getURI().toString(),
-                  httpResponse.getAllHeaders(), body.getBody());
+                  requestOptions.getMaxRedirects(), url,
+                  httpResponse.getHeaders(), body.getBody());
           resp.setBodySizeExceeded(body.isBodyTruncated());
-      }
-      finally
-      {
-          HttpUtils.dispose(httpResponse);
       }
       return resp;
     }
@@ -323,31 +303,19 @@ public class HttpCache extends AbstractHttpFetcher
         }
 
         HttpHead head = new HttpHead(url);
+        HttpUtils.setRequestOptions(head, requestOptions);
 
-        org.apache.http.HttpResponse httpResponse = null;
-        HttpEntity responseEntity = null;
-
-        try
+        try (CloseableHttpResponse httpResponse = _client.execute(head))
         {
-            head.getParams().setParameter(AllClientPNames.HANDLE_REDIRECTS, Boolean.TRUE);
-            HttpUtils.setRequestOptions(head, requestOptions);
-
-            httpResponse = _client.execute(head);
-            responseEntity = httpResponse.getEntity();
-
-            int statusCode = httpResponse.getStatusLine().getStatusCode();
-            String statusLine = httpResponse.getStatusLine().getReasonPhrase();
+            int statusCode = httpResponse.getCode();
+            String statusLine = httpResponse.getReasonPhrase();
 
             resp = new DefaultHttpResponse(statusCode, statusLine,
-                    requestOptions.getMaxRedirects(), head.getURI().toString(),
-                    httpResponse.getAllHeaders(), null);
+                    requestOptions.getMaxRedirects(), url,
+                    httpResponse.getHeaders(), null);
 
             // save result in cache
             _headCache.put(url, resp);
-        }
-        finally
-        {
-            HttpUtils.dispose(responseEntity);
         }
 
         return resp;

@@ -4,9 +4,9 @@
 
 package org.openid4java.util;
 
-import org.apache.http.auth.Credentials;
-import org.apache.http.auth.NTCredentials;
-import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.hc.client5.http.auth.Credentials;
+import org.apache.hc.client5.http.auth.NTCredentials;
+import org.apache.hc.client5.http.auth.UsernamePasswordCredentials;
 
 /**
  * Utility bean for setting transport properties in runtime.
@@ -108,13 +108,13 @@ public class ProxyProperties
         {
             credentials = new UsernamePasswordCredentials(
                     this.getUserName(),
-                    this.getPassword());
+                    this.getPassword().toCharArray());
         }
         else
         {
             credentials = new NTCredentials(
                     this.getUserName(),
-                    this.getPassword(),
+                    this.getPassword().toCharArray(),
                     this.getProxyHostName(),
                     this.getDomain());
         }

@@ -22,7 +22,7 @@ import com.google.inject.Injector;
 
 import junit.framework.TestCase;
 
-import org.apache.http.Header;
+import org.apache.hc.core5.http.Header;
 import org.openid4java.discovery.yadis.YadisResolver;
 import org.openid4java.util.AbstractHttpFetcher;
 import org.openid4java.util.HttpCache;

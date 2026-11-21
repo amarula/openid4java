@@ -6,12 +6,11 @@ package org.openid4java.discovery.yadis;
 
 import com.google.inject.Inject;
 
-import org.apache.http.HttpException;
-import org.apache.http.HttpStatus;
-import org.apache.http.Header;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.http.client.ClientProtocolException;
+import org.apache.hc.client5.http.ClientProtocolException;
+import org.apache.hc.core5.http.Header;
+import org.apache.hc.core5.http.HttpStatus;
 
 import java.io.IOException;
 import java.util.Set;
