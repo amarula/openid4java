@@ -43,13 +43,12 @@
 Copyright 2006-2008 Sxip Identity Corporation
 
 Package distribution:
-  => http://code.google.com/p/openid4java/downloads/list
-  => http://code.google.com/p/openid4java/wiki/MavenHowTo
+  => https://github.com/jbufu/openid4java/releases
 
 Source code and defect management:
-  => http://code.google.com/p/openid4java
+  => https://github.com/jbufu/openid4java
 
-For support, please join the Google Groups!
+For support, please join the Google Group:
   => http://groups.google.com/group/openid4java
 
 OpenID

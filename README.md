@@ -1,5 +1,11 @@
 ![OpenID4Java](openid4java.png)
 
+This repository is a maintained fork of the original OpenID4Java library.
+
+> **Note:** OpenID Authentication 2.0 is a deprecated specification.
+> This fork maintains the library for existing deployments; new projects
+> should use OpenID Connect.
+
 # What is this package? #
 
 This library allows you to OpenID-enable your Java webapp.
