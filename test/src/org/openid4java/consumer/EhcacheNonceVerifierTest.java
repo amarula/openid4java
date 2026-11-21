@@ -32,6 +32,10 @@ public class EhcacheNonceVerifierTest extends AbstractNonceVerifierTest
     {
         super.tearDown();
 
+        if (_cacheManager != null)
+        {
+            _cacheManager.shutdown();
+        }
         _cacheManager = null;
     }
 

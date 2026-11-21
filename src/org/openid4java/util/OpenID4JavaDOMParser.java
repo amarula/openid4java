@@ -91,8 +91,13 @@ public class OpenID4JavaDOMParser extends DOMParser implements HTMLTagBalancingL
      * @see <a href="http://nekohtml.sourceforge.net/settings.html">NekoHTML | Parser Settings</a>
      */
     public OpenID4JavaDOMParser() {
+        this(true);
+    }
+
+    public OpenID4JavaDOMParser(boolean balanceTags) {
         try
         {
+            this.setFeature("http://cyberneko.org/html/features/balance-tags", balanceTags);
             this.setFeature("http://xml.org/sax/features/namespaces", false);
             this.setFeature("http://xml.org/sax/features/validation", false);
             this.setFeature("http://xml.org/sax/features/external-general-entities", false);

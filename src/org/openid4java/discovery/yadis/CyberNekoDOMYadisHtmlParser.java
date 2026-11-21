@@ -48,12 +48,11 @@ public class CyberNekoDOMYadisHtmlParser implements YadisHtmlParser
             }
         }
 
-        NodeList heads = doc.getElementsByTagName("head");
-        if (heads.getLength() != 1)
+        int headCount = countTopLevelHeads(doc);
+        if (headCount != 1)
             throw new YadisException(
                     "HTML response must have exactly one HEAD element, "
-                            + "found " + heads.getLength() + " : "
-                            + heads.toString(),
+                            + "found " + headCount,
                     OpenIDException.YADIS_HTMLMETA_INVALID_RESPONSE);
 
         HTMLHeadElement head = (HTMLHeadElement) doc.getHead();
@@ -91,9 +90,33 @@ public class CyberNekoDOMYadisHtmlParser implements YadisHtmlParser
         return xrdsLocation;
     }
 
+    private static int countTopLevelHeads(HTMLDocumentImpl doc)
+    {
+        NodeList heads = doc.getElementsByTagName("head");
+        int count = 0;
+        for (int i = 0; i < heads.getLength(); i++)
+        {
+            if (!hasBodyAncestor(heads.item(i)))
+                count++;
+        }
+        return count;
+    }
+
+    private static boolean hasBodyAncestor(org.w3c.dom.Node node)
+    {
+        for (org.w3c.dom.Node parent = node.getParentNode();
+             parent != null; parent = parent.getParentNode())
+        {
+            if (parent.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE
+                    && "body".equalsIgnoreCase(parent.getNodeName()))
+                return true;
+        }
+        return false;
+    }
+
     private HTMLDocumentImpl parseDocument(String htmlData) throws YadisException
     {
-        OpenID4JavaDOMParser parser = new OpenID4JavaDOMParser();
+        OpenID4JavaDOMParser parser = new OpenID4JavaDOMParser(false);
         try
         {
             parser.parse(OpenID4JavaDOMParser.createInputSource(htmlData));
