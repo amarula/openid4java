@@ -25,18 +25,18 @@ public class UrlIdentifier implements Identifier
     static
     {
         for (char c = 'a'; c <= 'z'; c++)
-            UNRESERVED_CHARACTERS.add(new Character(c));
+            UNRESERVED_CHARACTERS.add(Character.valueOf(c));
 
         for (char c = 'A'; c <= 'Z'; c++)
-            UNRESERVED_CHARACTERS.add(new Character(c));
+            UNRESERVED_CHARACTERS.add(Character.valueOf(c));
 
         for (char c = '0'; c <= '9'; c++)
-            UNRESERVED_CHARACTERS.add(new Character(c));
+            UNRESERVED_CHARACTERS.add(Character.valueOf(c));
 
-        UNRESERVED_CHARACTERS.add(new Character('-'));
-        UNRESERVED_CHARACTERS.add(new Character('.'));
-        UNRESERVED_CHARACTERS.add(new Character('_'));
-        UNRESERVED_CHARACTERS.add(new Character('~'));
+        UNRESERVED_CHARACTERS.add(Character.valueOf('-'));
+        UNRESERVED_CHARACTERS.add(Character.valueOf('.'));
+        UNRESERVED_CHARACTERS.add(Character.valueOf('_'));
+        UNRESERVED_CHARACTERS.add(Character.valueOf('~'));
     }
 
     private final URL _urlIdentifier;
@@ -197,7 +197,7 @@ public class UrlIdentifier implements Identifier
                     String str = URLDecoder.decode(percentCode, "ISO-8859-1");
                     char chr = str.charAt(0);
 
-                    if (UNRESERVED_CHARACTERS.contains(new Character(chr)))
+                    if (UNRESERVED_CHARACTERS.contains(Character.valueOf(chr)))
                         normalized.append(chr);
                     else
                         normalized.append(percentCode);

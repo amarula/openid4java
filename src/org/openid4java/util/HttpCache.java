@@ -11,7 +11,6 @@ import org.apache.hc.client5.http.classic.methods.HttpHead;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.core5.http.Header;
 import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.NameValuePair;
@@ -127,22 +126,22 @@ public class HttpCache extends AbstractHttpFetcher
         HttpGet get = new HttpGet(url);
         HttpUtils.setRequestOptions(get, requestOptions);
 
-        try (CloseableHttpResponse httpResponse = _client.execute(get))
-        {
+        resp = _client.execute(get, httpResponse -> {
             int statusCode = httpResponse.getCode();
             String statusLine = httpResponse.getReasonPhrase();
 
             ResponseBody body = getResponseBody(httpResponse.getEntity(),
                 requestOptions.getMaxBodySize());
 
-            resp = new DefaultHttpResponse(statusCode, statusLine,
+            DefaultHttpResponse response = new DefaultHttpResponse(statusCode, statusLine,
                     requestOptions.getMaxRedirects(), url,
                     httpResponse.getHeaders(), body.getBody());
-            resp.setBodySizeExceeded(body.isBodyTruncated());
+            response.setBodySizeExceeded(body.isBodyTruncated());
+            return response;
+        });
 
-            // save result in cache
-            _getCache.put(url, resp);
-        }
+        // save result in cache
+        _getCache.put(url, resp);
 
         return resp;
     }
@@ -167,22 +166,21 @@ public class HttpCache extends AbstractHttpFetcher
       HttpUtils.setRequestOptions(post, requestOptions, false);
       post.setEntity(new UrlEncodedFormEntity(toList(parameters), StandardCharsets.UTF_8));
 
-      DefaultHttpResponse resp;
       // place the http call to the OP
       if (DEBUG) _log.debug("Performing HTTP POST on " + url);
-      try (CloseableHttpResponse httpResponse = _client.execute(post))
-      {
+      DefaultHttpResponse resp = _client.execute(post, httpResponse -> {
           int statusCode = httpResponse.getCode();
           String statusLine = httpResponse.getReasonPhrase();
 
           ResponseBody body = getResponseBody(httpResponse.getEntity(),
               requestOptions.getMaxBodySize());
 
-          resp = new DefaultHttpResponse(statusCode, statusLine,
+          DefaultHttpResponse response = new DefaultHttpResponse(statusCode, statusLine,
                   requestOptions.getMaxRedirects(), url,
                   httpResponse.getHeaders(), body.getBody());
-          resp.setBodySizeExceeded(body.isBodyTruncated());
-      }
+          response.setBodySizeExceeded(body.isBodyTruncated());
+          return response;
+      });
       return resp;
     }
 
@@ -305,18 +303,17 @@ public class HttpCache extends AbstractHttpFetcher
         HttpHead head = new HttpHead(url);
         HttpUtils.setRequestOptions(head, requestOptions);
 
-        try (CloseableHttpResponse httpResponse = _client.execute(head))
-        {
+        resp = _client.execute(head, httpResponse -> {
             int statusCode = httpResponse.getCode();
             String statusLine = httpResponse.getReasonPhrase();
 
-            resp = new DefaultHttpResponse(statusCode, statusLine,
+            return new DefaultHttpResponse(statusCode, statusLine,
                     requestOptions.getMaxRedirects(), url,
                     httpResponse.getHeaders(), null);
+        });
 
-            // save result in cache
-            _headCache.put(url, resp);
-        }
+        // save result in cache
+        _headCache.put(url, resp);
 
         return resp;
     }

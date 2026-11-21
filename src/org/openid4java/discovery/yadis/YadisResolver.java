@@ -75,7 +75,7 @@ public class YadisResolver
         if (DEBUG) _log.debug(YADIS_HTML_PARSER_CLASS_NAME_KEY + ":" + className);
         try
         {
-            YADIS_HTML_PARSER = (YadisHtmlParser) Class.forName(className).newInstance();
+            YADIS_HTML_PARSER = (YadisHtmlParser) Class.forName(className).getDeclaredConstructor().newInstance();
         }
         catch (Exception e)
         {
@@ -85,7 +85,7 @@ public class YadisResolver
         if (DEBUG) _log.debug(XRDS_PARSER_CLASS_NAME_KEY + ":" + className);
         try
         {
-            XRDS_PARSER = (XrdsParser) Class.forName(className).newInstance();
+            XRDS_PARSER = (XrdsParser) Class.forName(className).getDeclaredConstructor().newInstance();
         }
         catch (Exception e)
         {

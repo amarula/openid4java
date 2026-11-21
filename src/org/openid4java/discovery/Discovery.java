@@ -41,7 +41,7 @@ public class Discovery
         String className = OpenID4JavaUtils.getProperty(XRI_RESOLVER_CLASS_NAME_KEY);
         if (DEBUG) _log.debug(XRI_RESOLVER_CLASS_NAME_KEY + ":" + className);
         try {
-            return (XriResolver) Class.forName(className).newInstance();
+            return (XriResolver) Class.forName(className).getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             throw new RuntimeException("Error initializing XRI resolver.", e);
         }

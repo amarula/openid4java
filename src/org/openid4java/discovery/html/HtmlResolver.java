@@ -42,7 +42,7 @@ public class HtmlResolver
         if (DEBUG) _log.debug(HTML_PARSER_CLASS_NAME_KEY + ":" + className);
         try
         {
-            HTML_PARSER = (HtmlParser) Class.forName(className).newInstance();
+            HTML_PARSER = (HtmlParser) Class.forName(className).getDeclaredConstructor().newInstance();
         }
         catch (Exception e)
         {

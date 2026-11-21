@@ -50,7 +50,6 @@ public final class HttpUtils
         RequestConfig config = RequestConfig.custom()
                 .setMaxRedirects(requestOptions.getMaxRedirects())
                 .setCircularRedirectsAllowed(requestOptions.getAllowCircularRedirects())
-                .setConnectTimeout(Timeout.ofMilliseconds(requestOptions.getConnTimeout()))
                 .setResponseTimeout(Timeout.ofMilliseconds(requestOptions.getSocketTimeout()))
                 .setRedirectsEnabled(redirectsEnabled)
                 .build();

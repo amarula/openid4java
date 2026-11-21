@@ -45,7 +45,7 @@ public class XriDotNetProxyResolver implements XriResolver
         if (DEBUG) _log.debug(XRDS_PARSER_CLASS_NAME_KEY + ":" + className);
         try
         {
-            XRDS_PARSER = (XrdsParser) Class.forName(className).newInstance();
+            XRDS_PARSER = (XrdsParser) Class.forName(className).getDeclaredConstructor().newInstance();
         }
         catch (Exception e)
         {

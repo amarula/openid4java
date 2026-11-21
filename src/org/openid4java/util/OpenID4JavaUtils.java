@@ -31,7 +31,11 @@ public class OpenID4JavaUtils
         // Load default properties first, then use custom properties to replace
         // the default.
         _appProperties = new Properties();
-        _appProperties.putAll(loadProperties("openid4java-default.properties"));
+        Properties defaults = loadProperties("openid4java-default.properties");
+        if (defaults != null)
+        {
+            _appProperties.putAll(defaults);
+        }
         Properties custom = loadProperties("/openid4java.properties");
         if (custom != null)
         {

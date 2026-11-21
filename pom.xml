@@ -413,8 +413,8 @@
       </dependency>
       <dependency>
         <groupId>javax.servlet</groupId>
-        <artifactId>servlet-api</artifactId>
-        <version>3.0-alpha-1</version>
+        <artifactId>javax.servlet-api</artifactId>
+        <version>4.0.1</version>
         <scope>test</scope>
       </dependency>
       <dependency>
@@ -539,7 +539,7 @@
     <!-- Test sample servlets -->
     <dependency>
       <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
+      <artifactId>javax.servlet-api</artifactId>
       <scope>test</scope>
     </dependency>
 

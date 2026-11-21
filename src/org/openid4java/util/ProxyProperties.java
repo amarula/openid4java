@@ -102,6 +102,7 @@ public class ProxyProperties
 	 * 
 	 * @return the proxy credentials
 	 */
+    @SuppressWarnings("deprecation")
     public Credentials getCredentials() {
         Credentials credentials = null;
         if (this.getDomain().equals(ANONYMOUS))

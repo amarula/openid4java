@@ -46,6 +46,10 @@ custom parser configurations must use the new classes.
 
 Upgraded the test-only JDOM dependency from 1.0 to JDOM 2.
 
+Replaced deprecated reflective instantiation and boxed constructors,
+hardened default property loading, and moved the HTTP connection
+setup to the current HttpClient 5 APIs.
+
 Updated the Maven plugins and added Automatic-Module-Name to the JAR
 manifest.
 

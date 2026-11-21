@@ -276,7 +276,7 @@ public class Message
         try
         {
             MessageExtensionFactory extensionFactory =
-                    (MessageExtensionFactory) clazz.newInstance();
+                    (MessageExtensionFactory) clazz.getDeclaredConstructor().newInstance();
 
             if (DEBUG) _log.debug("Adding extension factory for " +
                                   extensionFactory.getTypeUri());
@@ -319,7 +319,7 @@ public class Message
         try
         {
             Class extensionClass = (Class) _extensionFactories.get(typeUri);
-            extensionFactory = (MessageExtensionFactory) extensionClass.newInstance();
+            extensionFactory = (MessageExtensionFactory) extensionClass.getDeclaredConstructor().newInstance();
         }
         catch (Exception e)
         {

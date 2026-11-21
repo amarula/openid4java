@@ -321,6 +321,7 @@ public class ConsumerManager
      * @deprecated
      * @see #setAllowStateless(boolean)
      */
+    @Deprecated
     public void allowStateless(boolean allowStateless)
     {
         setAllowStateless(allowStateless);
@@ -350,6 +351,7 @@ public class ConsumerManager
      * @deprecated
      * @see #isAllowStateless()
      */
+    @Deprecated
     public boolean statelessAllowed()
     {
         return _allowStateless;

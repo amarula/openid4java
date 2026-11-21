@@ -8,25 +8,21 @@
 package org.openid4java.util;
 
 import org.apache.hc.client5.http.auth.AuthScope;
+import org.apache.hc.client5.http.config.ConnectionConfig;
 import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
-import org.apache.hc.client5.http.impl.io.BasicHttpClientConnectionManager;
-import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
 import org.apache.hc.client5.http.io.HttpClientConnectionManager;
-import org.apache.hc.client5.http.socket.ConnectionSocketFactory;
-import org.apache.hc.client5.http.socket.PlainConnectionSocketFactory;
-import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory;
+import org.apache.hc.client5.http.ssl.ClientTlsStrategyBuilder;
+import org.apache.hc.client5.http.ssl.TlsSocketStrategy;
 import org.apache.hc.core5.http.HttpHost;
-import org.apache.hc.core5.http.config.Registry;
-import org.apache.hc.core5.http.config.RegistryBuilder;
 import org.apache.hc.core5.util.Timeout;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
 
 /**
  * This class handles all HTTPClient connections for the
@@ -63,8 +59,8 @@ public class HttpClientFactory
      * Configures the type of HttpClient's constructed by the factory.
      *
      * @param multiThreadedHttpClient if true, a pooling connection manager is
-     *                                constructed; otherwise a single-connection
-     *                                manager is used.
+     *                                constructed; otherwise a connection pool
+     *                                limited to a single connection is used.
      */
     public static void setMultiThreadedHttpClient(boolean multiThreadedHttpClient) {
         HttpClientFactory.multiThreadedHttpClient = multiThreadedHttpClient;
@@ -85,47 +81,37 @@ public class HttpClientFactory
                                          String cookiePolicy, SSLContext sslContext,
                                          HostnameVerifier hostnameVerifier)
     {
-        RegistryBuilder<ConnectionSocketFactory> registryBuilder = RegistryBuilder.create();
-
-        registryBuilder.register("http", PlainConnectionSocketFactory.getSocketFactory());
-
-        SSLConnectionSocketFactory sslSocketFactory;
-        if (sslContext == null)
+        ClientTlsStrategyBuilder tlsStrategyBuilder = ClientTlsStrategyBuilder.create();
+        if (sslContext != null)
         {
-            if (hostnameVerifier == null)
-            {
-                sslSocketFactory = SSLConnectionSocketFactory.getSocketFactory();
-            }
-            else
-            {
-                sslSocketFactory = new SSLConnectionSocketFactory(
-                        (SSLSocketFactory) SSLSocketFactory.getDefault(),
-                        hostnameVerifier);
-            }
+            tlsStrategyBuilder.setSslContext(sslContext);
         }
-        else if (hostnameVerifier == null)
+        if (hostnameVerifier != null)
         {
-            sslSocketFactory = new SSLConnectionSocketFactory(sslContext);
+            tlsStrategyBuilder.setHostnameVerifier(hostnameVerifier);
         }
-        else
+        TlsSocketStrategy tlsStrategy = tlsStrategyBuilder.buildClassic();
+
+        ConnectionConfig connectionConfig = ConnectionConfig.custom()
+                .setConnectTimeout(Timeout.ofMilliseconds(connTimeout))
+                .build();
+
+        PoolingHttpClientConnectionManagerBuilder connManagerBuilder =
+                PoolingHttpClientConnectionManagerBuilder.create()
+                        .setTlsSocketStrategy(tlsStrategy)
+                        .setDefaultConnectionConfig(connectionConfig);
+
+        if (!multiThreadedHttpClient)
         {
-            sslSocketFactory = new SSLConnectionSocketFactory(
-                    sslContext, hostnameVerifier);
+            connManagerBuilder.setMaxConnTotal(1);
+            connManagerBuilder.setMaxConnPerRoute(1);
         }
-        registryBuilder.register("https", sslSocketFactory);
 
-        Registry<ConnectionSocketFactory> registry = registryBuilder.build();
-
-        HttpClientConnectionManager connManager;
-        if (multiThreadedHttpClient)
-            connManager = new PoolingHttpClientConnectionManager(registry);
-        else
-            connManager = new BasicHttpClientConnectionManager(registry);
+        HttpClientConnectionManager connManager = connManagerBuilder.build();
 
         RequestConfig.Builder requestConfigBuilder = RequestConfig.custom()
                 .setMaxRedirects(maxRedirects)
                 .setCircularRedirectsAllowed(Boolean.TRUE.equals(allowCircularRedirects))
-                .setConnectTimeout(Timeout.ofMilliseconds(connTimeout))
                 .setResponseTimeout(Timeout.ofMilliseconds(socketTimeout));
 
         if (cookiePolicy != null)
