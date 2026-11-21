@@ -47,6 +47,10 @@ defaults now point to JsoupHtmlParser and JsoupYadisHtmlParser.
 The CyberNekoDOM* parsers and OpenID4JavaDOMParser were removed;
 custom parser configurations must use the new classes.
 
+Added a shaded openid4java-shaded 2.0.0 artifact for Jenkins plugins,
+with Guice, Guava, HttpClient 5, jsoup and the injection APIs relocated
+under org.openid4java.shaded.*.
+
 Upgraded the test-only JDOM dependency from 1.0 to JDOM 2.
 
 Replaced deprecated reflective instantiation and boxed constructors,

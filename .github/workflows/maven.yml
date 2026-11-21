@@ -25,4 +25,6 @@ jobs:
           java-version: ${{ matrix.java }}
           cache: maven
       - name: Build and test
-        run: mvn -B verify
+        run: mvn -B install
+      - name: Build shaded artifact
+        run: mvn -B -f shaded/pom.xml package
