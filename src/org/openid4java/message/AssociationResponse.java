@@ -64,7 +64,7 @@ public class AssociationResponse extends Message
 
         setAssocHandle(assoc.getHandle());
 
-        Long expiryIn = new Long( ( assoc.getExpiry().getTime() -
+        Long expiryIn = Long.valueOf( ( assoc.getExpiry().getTime() -
                                     System.currentTimeMillis() ) / 1000 );
         setExpire(expiryIn);
 

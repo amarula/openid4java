@@ -3,7 +3,7 @@
  */
 package org.openid4java.util;
 
-import org.apache.http.Header;
+import org.apache.hc.core5.http.Header;
 
 /**
  * Container class for HTTP responses.

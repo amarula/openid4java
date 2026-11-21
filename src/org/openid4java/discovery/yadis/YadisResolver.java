@@ -6,12 +6,11 @@ package org.openid4java.discovery.yadis;
 
 import com.google.inject.Inject;
 
-import org.apache.http.HttpException;
-import org.apache.http.HttpStatus;
-import org.apache.http.Header;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.http.client.ClientProtocolException;
+import org.apache.hc.client5.http.ClientProtocolException;
+import org.apache.hc.core5.http.Header;
+import org.apache.hc.core5.http.HttpStatus;
 
 import java.io.IOException;
 import java.util.Set;
@@ -76,7 +75,7 @@ public class YadisResolver
         if (DEBUG) _log.debug(YADIS_HTML_PARSER_CLASS_NAME_KEY + ":" + className);
         try
         {
-            YADIS_HTML_PARSER = (YadisHtmlParser) Class.forName(className).newInstance();
+            YADIS_HTML_PARSER = (YadisHtmlParser) Class.forName(className).getDeclaredConstructor().newInstance();
         }
         catch (Exception e)
         {
@@ -86,7 +85,7 @@ public class YadisResolver
         if (DEBUG) _log.debug(XRDS_PARSER_CLASS_NAME_KEY + ":" + className);
         try
         {
-            XRDS_PARSER = (XrdsParser) Class.forName(className).newInstance();
+            XRDS_PARSER = (XrdsParser) Class.forName(className).getDeclaredConstructor().newInstance();
         }
         catch (Exception e)
         {

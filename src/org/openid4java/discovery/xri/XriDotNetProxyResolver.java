@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.http.HttpStatus;
+import org.apache.hc.core5.http.HttpStatus;
 import org.openid4java.discovery.DiscoveryException;
 import org.openid4java.discovery.DiscoveryInformation;
 import org.openid4java.discovery.XriIdentifier;
@@ -45,7 +45,7 @@ public class XriDotNetProxyResolver implements XriResolver
         if (DEBUG) _log.debug(XRDS_PARSER_CLASS_NAME_KEY + ":" + className);
         try
         {
-            XRDS_PARSER = (XrdsParser) Class.forName(className).newInstance();
+            XRDS_PARSER = (XrdsParser) Class.forName(className).getDeclaredConstructor().newInstance();
         }
         catch (Exception e)
         {
@@ -119,7 +119,7 @@ public class XriDotNetProxyResolver implements XriResolver
 
     public XriIdentifier parseIdentifier(String identifier) throws DiscoveryException
     {
-        // todo: http://code.google.com/p/openid4java/issues/detail?id=63
+        // todo: see the upstream issue tracker (issue 63)
         _log.warn("Creating XRI identifier with the friendly XRI identifier as the IRI/URI normal forms.");
         return new XriIdentifier(identifier, identifier, identifier);
     }

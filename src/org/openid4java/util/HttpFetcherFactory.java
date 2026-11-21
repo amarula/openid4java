@@ -16,9 +16,8 @@
  */
 package org.openid4java.util;
 
+import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
-
-import org.apache.http.conn.ssl.X509HostnameVerifier;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -47,7 +46,7 @@ public class HttpFetcherFactory {
 	  this(new HttpCacheProvider(sslContext));
   }
   
-  public HttpFetcherFactory(SSLContext sslContext, X509HostnameVerifier hostnameVerifier)
+  public HttpFetcherFactory(SSLContext sslContext, HostnameVerifier hostnameVerifier)
   {
 	  this(new HttpCacheProvider(sslContext, hostnameVerifier));
   }
@@ -63,9 +62,9 @@ public class HttpFetcherFactory {
 	  
 	  private final SSLContext sslContext;
 	  
-	  private final X509HostnameVerifier hostnameVerifier;
+	  private final HostnameVerifier hostnameVerifier;
 	  
-	  public HttpCacheProvider(SSLContext sslContext, X509HostnameVerifier hostnameVerifier)
+	  public HttpCacheProvider(SSLContext sslContext, HostnameVerifier hostnameVerifier)
 	  {
 		  this.sslContext = sslContext;
 		  this.hostnameVerifier = hostnameVerifier;

@@ -19,8 +19,8 @@ The main interaction points between a web application acting as a
 Relying Party (Consumer) and the library are the
 {@link org.openid4java.consumer.ConsumerManager ConsumerManager} and
 {@link org.openid4java.discovery.Discovery Discovery} classes.
-A reference {@link org.openid4java.consumer.SampleConsumer SampleConsumer}
-implementation is provided in the consumer package.
+A reference SampleConsumer implementation is provided in the test
+sources under org.openid4java.consumer.
 See the general <a href="#RelyingParty-usage"> usage pattern </a> below.
 </p>
 
@@ -29,8 +29,8 @@ See the general <a href="#RelyingParty-usage"> usage pattern </a> below.
 The main interaction point between a web application acting as a
 OpenID Provider (Server) and the library is the
 {@link org.openid4java.server.ServerManager ServerManager} class.
-A reference {@link org.openid4java.server.SampleServer SampleServer}
-implementation is provided in the server package.
+A reference SampleServer implementation is provided in the test
+sources under org.openid4java.server.
 See the general <a href="#OpenID-Provider-usage"> usage pattern</a> below.
 </p>
 
@@ -84,7 +84,7 @@ See the general <a href="#OpenID-Provider-usage"> usage pattern</a> below.
         // Allows payloads > 255 bytes
 
         // &lt;FORM action=&quot;OpenID Provider's service endpoint&quot;&gt;
-        // see samples/formredirection.jsp for a JSP example
+        // build the HTML form from authReq.getParameterMap()
         authReq.getOPEndpoint();
 
         // build a HTML FORM with the message parameters

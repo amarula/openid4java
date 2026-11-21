@@ -8,10 +8,10 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
 import org.openid4java.discovery.yadis.YadisResolver;
 import org.openid4java.util.HttpFetcherFactory;
 
@@ -37,15 +37,15 @@ public class RealmVerifierTest extends TestCase
 
     static
     {
-        _resultCodes.put("OK", new Integer(RealmVerifier.OK));
-        _resultCodes.put("DENIED_REALM", new Integer(RealmVerifier.DENIED_REALM));
-        _resultCodes.put("MALFORMED_REALM", new Integer(RealmVerifier.MALFORMED_REALM));
-        _resultCodes.put("MALFORMED_RETURN_TO_URL", new Integer(RealmVerifier.MALFORMED_RETURN_TO_URL));
-        _resultCodes.put("FRAGMENT_NOT_ALLOWED", new Integer(RealmVerifier.FRAGMENT_NOT_ALLOWED));
-        _resultCodes.put("PROTOCOL_MISMATCH", new Integer(RealmVerifier.PROTOCOL_MISMATCH));
-        _resultCodes.put("PORT_MISMATCH", new Integer(RealmVerifier.PORT_MISMATCH));
-        _resultCodes.put("PATH_MISMATCH", new Integer(RealmVerifier.PATH_MISMATCH));
-        _resultCodes.put("DOMAIN_MISMATCH", new Integer(RealmVerifier.DOMAIN_MISMATCH));
+        _resultCodes.put("OK", Integer.valueOf(RealmVerifier.OK));
+        _resultCodes.put("DENIED_REALM", Integer.valueOf(RealmVerifier.DENIED_REALM));
+        _resultCodes.put("MALFORMED_REALM", Integer.valueOf(RealmVerifier.MALFORMED_REALM));
+        _resultCodes.put("MALFORMED_RETURN_TO_URL", Integer.valueOf(RealmVerifier.MALFORMED_RETURN_TO_URL));
+        _resultCodes.put("FRAGMENT_NOT_ALLOWED", Integer.valueOf(RealmVerifier.FRAGMENT_NOT_ALLOWED));
+        _resultCodes.put("PROTOCOL_MISMATCH", Integer.valueOf(RealmVerifier.PROTOCOL_MISMATCH));
+        _resultCodes.put("PORT_MISMATCH", Integer.valueOf(RealmVerifier.PORT_MISMATCH));
+        _resultCodes.put("PATH_MISMATCH", Integer.valueOf(RealmVerifier.PATH_MISMATCH));
+        _resultCodes.put("DOMAIN_MISMATCH", Integer.valueOf(RealmVerifier.DOMAIN_MISMATCH));
     }
 
     private RealmVerifier _realmVerifier;

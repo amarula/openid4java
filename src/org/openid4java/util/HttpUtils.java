@@ -4,9 +4,12 @@
 
 package org.openid4java.util;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.client.params.AllClientPNames;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.util.Timeout;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -18,15 +21,11 @@ public final class HttpUtils
         // empty
     }
 
-    public static void dispose(final org.apache.http.HttpResponse response)
+    public static void dispose(final ClassicHttpResponse response)
     {
         if (response != null)
         {
-            HttpEntity e = response.getEntity();
-            if (e != null)
-            {
-                dispose(e);
-            }
+            dispose(response.getEntity());
         }
     }
 
@@ -34,27 +33,27 @@ public final class HttpUtils
     {
         if (entity != null)
         {
-            try
-            {
-                entity.consumeContent();
-            }
-            catch (Exception ignored)
-            {
-                // ignored
-            }
+            EntityUtils.consumeQuietly(entity);
         }
     }
 
-    public static void setRequestOptions(HttpRequestBase request, HttpRequestOptions requestOptions)
+    public static void setRequestOptions(HttpUriRequestBase request,
+                                         HttpRequestOptions requestOptions)
     {
-        request.getParams().setParameter(AllClientPNames.MAX_REDIRECTS,
-                new Integer(requestOptions.getMaxRedirects()));
-        request.getParams().setParameter(AllClientPNames.SO_TIMEOUT,
-                new Integer(requestOptions.getSocketTimeout()));
-        request.getParams().setParameter(AllClientPNames.CONNECTION_TIMEOUT,
-                new Integer(requestOptions.getConnTimeout()));
-        request.getParams().setParameter(AllClientPNames.ALLOW_CIRCULAR_REDIRECTS,
-                Boolean.valueOf(requestOptions.getAllowCircularRedirects()));
+        setRequestOptions(request, requestOptions, true);
+    }
+
+    public static void setRequestOptions(HttpUriRequestBase request,
+                                         HttpRequestOptions requestOptions,
+                                         boolean redirectsEnabled)
+    {
+        RequestConfig config = RequestConfig.custom()
+                .setMaxRedirects(requestOptions.getMaxRedirects())
+                .setCircularRedirectsAllowed(requestOptions.getAllowCircularRedirects())
+                .setResponseTimeout(Timeout.ofMilliseconds(requestOptions.getSocketTimeout()))
+                .setRedirectsEnabled(redirectsEnabled)
+                .build();
+        request.setConfig(config);
 
         Map requestHeaders = requestOptions.getRequestHeaders();
         if (requestHeaders != null)

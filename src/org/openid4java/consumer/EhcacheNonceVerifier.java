@@ -4,13 +4,13 @@
 
 package org.openid4java.consumer;
 
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.Element;
-
-import java.util.Date;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.ehcache.Cache;
+import org.ehcache.expiry.ExpiryPolicy;
+
+import java.time.Duration;
+import java.util.Date;
 
 /**
  * @author Marius Scurtescu, Johnny Bufu
@@ -20,32 +20,48 @@ public class EhcacheNonceVerifier extends AbstractNonceVerifier
     private static Log _log = LogFactory.getLog(EhcacheNonceVerifier.class);
     private static final boolean DEBUG = _log.isDebugEnabled();
 
-    private Cache _cache;
+    private Cache<String, String> _cache;
 
     public EhcacheNonceVerifier(int maxAge)
     {
         super(maxAge);
     }
 
-    public void setCache(Cache cache)
+    public void setCache(Cache<String, String> cache)
     {
-        if (cache.getTimeToLiveSeconds() != _maxAgeSeconds)
+        @SuppressWarnings("unchecked")
+        ExpiryPolicy<String, String> expiryPolicy =
+                (ExpiryPolicy<String, String>) cache.getRuntimeConfiguration().getExpiryPolicy();
+
+        long timeToLive = getSeconds(expiryPolicy.getExpiryForCreation("key", "value"));
+        long timeToIdle = getSeconds(expiryPolicy.getExpiryForAccess("key", () -> "value"));
+
+        if (timeToLive != _maxAgeSeconds)
         {
-            throw new IllegalArgumentException("Max Age: " + _maxAgeSeconds + ", same expected for cache, but found: " + cache.getTimeToLiveSeconds());
+            throw new IllegalArgumentException("Max Age: " + _maxAgeSeconds + ", same expected for cache, but found: " + timeToLive);
         }
 
-        if (cache.getTimeToLiveSeconds() != cache.getTimeToIdleSeconds())
+        if (timeToLive != timeToIdle)
         {
-            throw new IllegalArgumentException("Cache must have same timeToLive (" + cache.getTimeToLiveSeconds() + ") as timeToIdle (" + cache.getTimeToIdleSeconds() + ")");
+            throw new IllegalArgumentException("Cache must have same timeToLive (" + timeToLive + ") as timeToIdle (" + timeToIdle + ")");
         }
 
         _cache = cache;
     }
 
+    private static long getSeconds(Duration duration)
+    {
+        if (duration == null)
+        {
+            throw new IllegalArgumentException("Cache expiry policy must define a duration");
+        }
+
+        return duration.getSeconds();
+    }
+
     protected int seen(Date now, String opUrl, String nonce)
     {
         String pair = opUrl + '#' + nonce;
-        Element element = new Element(pair, pair);
 
         if (_cache.get(pair) != null)
         {
@@ -53,7 +69,7 @@ public class EhcacheNonceVerifier extends AbstractNonceVerifier
             return SEEN;
         }
 
-        _cache.put(element);
+        _cache.put(pair, pair);
 
         if (DEBUG) _log.debug("Nonce verified: " + nonce);
 

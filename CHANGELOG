@@ -5,8 +5,56 @@
 This document highlights the major changes in the OpenID4Java library.
 Please see the TODO file for outstanding items.
 
-    For the detailed logs please see the commit comments at:
-    - http://code.google.com/p/openid4java
+    For the detailed logs please see the commit history at:
+    - https://github.com/amarula/openid4java/commits/master
+
+2.0.0:
+
+This is the Amarula Solutions fork, published as
+com.amarulasolutions:openid4java from github.com/amarula/openid4java.
+
+Notable changes:
+
+Java 17 or newer is required. The build runs on JDK 25 and produces
+Java 17 bytecode.
+
+Removed the OpenID Information Cards (Higgins STS) support.
+
+Removed the local XRI resolver, which depended on the abandoned OpenXRI
+libraries. The HTTP-based XriDotNetProxyResolver remains available.
+
+Removed the Ant build and the bundled lib/ JARs. Maven is the supported
+build.
+
+Moved the SampleConsumer and SampleServer demo classes out of the main
+artifact and into the test sources. The main JAR no longer depends on
+the servlet API.
+
+Removed the end-of-life log4j 1.x dependency and the unused xmlsec
+dependency.
+
+Replaced the end-of-life Apache HttpClient 4.5 with HttpClient 5.6.
+The HTTP types exposed by HttpFetcherFactory, HttpCache,
+HttpClientFactory, HttpResponse and ProxyProperties now use
+HttpClient 5.
+
+Replaced the end-of-life Ehcache 2 with Ehcache 3.10.
+EhcacheNonceVerifier.setCache now accepts org.ehcache.Cache.
+
+Replaced the unmaintained NekoHTML and Xerces HTML parsing stack
+with jsoup. The discovery.html.parser and discovery.yadis.html.parser
+defaults now point to JsoupHtmlParser and JsoupYadisHtmlParser.
+The CyberNekoDOM* parsers and OpenID4JavaDOMParser were removed;
+custom parser configurations must use the new classes.
+
+Upgraded the test-only JDOM dependency from 1.0 to JDOM 2.
+
+Replaced deprecated reflective instantiation and boxed constructors,
+hardened default property loading, and moved the HTTP connection
+setup to the current HttpClient 5 APIs.
+
+Updated the Maven plugins and added Automatic-Module-Name to the JAR
+manifest.
 
 20150208:
 
@@ -142,12 +190,11 @@ Under the hood:
 Copyright 2006-2008 Sxip Identity Corporation
 
 Project home page and package distribution:
-  => http://code.google.com/p/openid4java
-  => http://code.google.com/p/openid4java/downloads/
+  => https://github.com/amarula/openid4java
+  => https://github.com/amarula/openid4java/releases
 
-For support, please visit the wiki and join the Google Groups!
+For support, please join the Google Group:
   => http://groups.google.com/group/openid4java/
-  => http://code.google.com/p/openid4java/w/
 
 OpenID
   => http://openid.net/
